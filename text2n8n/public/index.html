@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Text → n8n Builder</title>
+</head>
+<body>
+  <h1>Natural-language to n8n workflow</h1>
+  <textarea id="prompt" rows="6" cols="80" placeholder="Describe your workflow..."></textarea><br/>
+  <button onclick="submitPrompt()">Build</button>
+  <pre id="result"></pre>
+  <script>
+    async function submitPrompt() {
+      const prompt = document.getElementById('prompt').value;
+      const res = await fetch('/build', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+      const data = await res.json();
+      document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
